@@ -1,19 +1,23 @@
 import React, { useEffect , useState } from 'react'
 import axios from 'axios'
-import { Loader2Icon } from 'lucide-react';
+import { Loader2, Loader2Icon } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { QuestionListConatiner } from './QuestionListConatiner';
+import { useUser } from '@/app/Provider';
+import { v4 as uuidv4 } from 'uuid';
+import { supabase } from '@/services/supabaseClient'
 
-function QuestionList({formData}) {
+function QuestionList({formData , onCreateLink}) {
     
     const [loading, setLoading] = useState(false)
     const [questionList, setQuestionsList] = useState()
-
+    const [saveLoading, setSaveLoading] = useState(false);
+    const {user} = useUser()
 
     useEffect(()=>{
         if(formData){
-          //  GenerateQuestionList();
+          GenerateQuestionList();
         }
     }, [formData])
 
@@ -35,8 +39,24 @@ function QuestionList({formData}) {
         }
     }
 
-    const onFinish = () => {
+    const onFinish = async() => {
+        setSaveLoading(true);
+        const interview_id = uuidv4()
+        const { data, error } = await supabase
+        .from('interviews')
+        .insert([
+            { 
+                ...formData ,
+                questionList : questionList,
+                userEmail : user?.email,
+                interview_id : interview_id
 
+             },
+        ])
+        .select()
+        setSaveLoading(false)
+
+        onCreateLink(interview_id)
     }
   return (
     <div>
@@ -54,7 +74,10 @@ function QuestionList({formData}) {
         </div>
         }
         <div className='flex justify-end mt-10'>
-            <Button onClick={() => onFinish()}>Finish</Button>
+            <Button onClick={() => onFinish()} disabled = {saveLoading}>
+                {saveLoading && <Loader2  className='animate-spin'/>}
+                Create Interview Link & Finish
+            </Button>
         </div>
     </div>
   )
