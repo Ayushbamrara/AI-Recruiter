@@ -31,7 +31,7 @@ const CreateInterview = () => {
     }
 
     const onCreateLink = (interview_id) => {
-        setInterviewId(interviewId);
+        setInterviewId(interview_id);
         setStep(step+1)
     }
 
