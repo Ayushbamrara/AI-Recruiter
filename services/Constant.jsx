@@ -65,10 +65,10 @@ Adjust the number and depth of questions to match the interview duration.
 Ensure the questions match the tone and structure of a real-life {{type}} interview.
 
 🍀 Format your response in JSON format with array list of questions.
-format: interviewQuestions=[
+format: "interviewQuestions": [
 {
-  question:"",
-  type:"Technical/Behavioral/Experience/Problem Solving/Leadership"
+  "question":"",
+  "type":"Technical/Behavioral/Experience/Problem Solving/Leadership"
 },{
   ...
 }]

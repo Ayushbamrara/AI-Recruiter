@@ -12,14 +12,14 @@ import  InterviewLink  from './_components/InterviewLink'
 const CreateInterview = () => {
     const router = useRouter();
     const [step , setStep] = useState(1);
-    const [formData , setFormData]  = useState();
+    const [formData , setFormData]  = useState({});
     const [interviewId , setInterviewId]  = useState();
     const onHandleInputChange = (field, value) => {
       setFormData (prev => ({
         ...prev,
         [field]:value
       }))
-      console.log("formdata",formData)
+      console.log("formData updated:", formData)
     }
 
     const onGoToNext = ()=>{
