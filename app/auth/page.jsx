@@ -3,6 +3,8 @@ import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import React from 'react'
 import { supabase } from '@/services/supabaseClient'
+import { HandHeart } from 'lucide-react'
+
 
 function Login () {
 
