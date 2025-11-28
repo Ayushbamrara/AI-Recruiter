@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/services/supabaseClient';
 import { useUser } from '@/app/Provider';
-import InterviewCard from './interviewCard';
+import InterviewCard from './InterviewCard';
 
 const LatestInterviewLists = () => {
     const [interviewList , setInterviewList] = useState([]);
