@@ -1,15 +1,15 @@
 "use client"
+import React from 'react'
 import { Button } from '@/components/ui/button';
 import { Video } from 'lucide-react';
-import React, { useEffect } from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/services/supabaseClient';
 import { useUser } from '@/app/Provider';
-import InterviewCard from './interviewCard';
+import InterviewCard from '../dashboard/_components/InterviewCard';
 
-const LatestInterviewLists = () => {
-    const [interviewList , setInterviewList] = useState([]);
+function AllInterview() {
+  const [interviewList , setInterviewList] = useState([]);
     const {user} = useUser();
 
     useEffect (()=>{
@@ -21,13 +21,12 @@ const LatestInterviewLists = () => {
         .select('*')
         .eq('userEmail', user?.email)
         .order('id',{ascending: false})
-        .limit(2)
         console.log(Interviews)
         setInterviewList(Interviews);
       }
   return (
     <div className='my-5'>
-        <h2 className='font-bold text-2xl'>Previously Created Interview</h2>
+        <h2 className='font-bold text-2xl'> All Previously Created Interview</h2>
         {interviewList?.length == 0 && 
             <div className='flex flex-col items-center mt-5'>
                 <Video className='h-10 w-10 text-primary' />
@@ -40,7 +39,7 @@ const LatestInterviewLists = () => {
             }
             { interviewList && 
               <div className='grid grid-cols-2 mt-5 xl:grid-cols-2 gap-5'> 
-                {interviewList?.map((interview,index) => (                
+                {interviewList.map((interview,index) => (                
                 <InterviewCard key={interview.id} interview={interview} index={index}/>
               ))}
               </div>
@@ -50,4 +49,4 @@ const LatestInterviewLists = () => {
   )
 }
 
-export default LatestInterviewLists
+export default AllInterview;

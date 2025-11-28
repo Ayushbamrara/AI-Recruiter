@@ -1,4 +1,4 @@
-import React from 'react'
+"use client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,28 +9,32 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 
-function AlertConfirmation({children, stopInterview}) {
+export default function AlertConfirmation({ children, stopInterview }) {
   return (
-    <div>
-        <AlertDialog>
-           <AlertDialogTrigger>{children}</AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                    This action cannot be undone. This will end your interview.
-                </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction conClick={()=>stopInterview()}>Continue</AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>`
-    </div>
-  )
-}
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        {children}
+      </AlertDialogTrigger>
 
-export default AlertConfirmation
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>End Interview?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to end the interview?
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+          {/* 👇 IMPORTANT: call stopInterview() on confirm */}
+          <AlertDialogAction onClick={stopInterview}>
+            Confirm
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}

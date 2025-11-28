@@ -62,7 +62,7 @@ function QuestionList({ formData, onCreateLink }) {
     setSaveLoading(true);
     const interview_id = uuidv4();
     const { data, error } = await supabase
-      .from("interviews")
+      .from("Interviews")
       .insert([
         {
           ...formData,

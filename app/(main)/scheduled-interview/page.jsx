@@ -1,33 +1,31 @@
 "use client"
+import { useUser } from '@/app/Provider';
+import { supabase } from '@/services/supabaseClient';
+import React from 'react'
 import { Button } from '@/components/ui/button';
 import { Video } from 'lucide-react';
-import React, { useEffect } from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { supabase } from '@/services/supabaseClient';
-import { useUser } from '@/app/Provider';
-import InterviewCard from './interviewCard';
+import InterviewCard from '../dashboard/_components/InterviewCard';
 
-const LatestInterviewLists = () => {
-    const [interviewList , setInterviewList] = useState([]);
+function ScheduledInterview() {
     const {user} = useUser();
-
+    const [interviewList, setInterviewList] = useState();
     useEffect (()=>{
-      user && getInterviewList();
+        user && GetInterviewList();
     },[user])
-    const getInterviewList = async () => {
-        let { data: Interviews, error } = await supabase
-        .from('Interviews')
-        .select('*')
+    const GetInterviewList = async() => {
+        const result = await supabase.from('Interviews')
+        .select('id, jobPosition, duration, interview_id, "interview-feedback"(userEmail)')
         .eq('userEmail', user?.email)
         .order('id',{ascending: false})
-        .limit(2)
-        console.log(Interviews)
-        setInterviewList(Interviews);
-      }
+        console.log(result);
+        setInterviewList(result.data);
+    }
+
   return (
-    <div className='my-5'>
-        <h2 className='font-bold text-2xl'>Previously Created Interview</h2>
+    <div>
+        <h2 className='font-bold text-xl '>Interview List With Candidate Feedback</h2>
         {interviewList?.length == 0 && 
             <div className='flex flex-col items-center mt-5'>
                 <Video className='h-10 w-10 text-primary' />
@@ -41,13 +39,12 @@ const LatestInterviewLists = () => {
             { interviewList && 
               <div className='grid grid-cols-2 mt-5 xl:grid-cols-2 gap-5'> 
                 {interviewList?.map((interview,index) => (                
-                <InterviewCard key={interview.id} interview={interview} index={index}/>
+                <InterviewCard key={interview.id} interview={interview} index={index} viewDetail={true}/>
               ))}
               </div>
             }
-        
     </div>
   )
 }
 
-export default LatestInterviewLists
+export default ScheduledInterview;

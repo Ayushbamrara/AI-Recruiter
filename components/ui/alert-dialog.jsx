@@ -115,7 +115,12 @@ function AlertDialogAction({
 function AlertDialogCancel({
   className,
   ...props
-}) {
+}){
+
+   const handleClick = (e) => {
+    if (conClick) conClick(e);
+    if (onClick) onClick(e);
+  };
   return (
     <AlertDialogPrimitive.Cancel
       className={cn(buttonVariants({ variant: "outline" }), className)}

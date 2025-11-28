@@ -16,6 +16,7 @@ function Interview() {
 
     const [interviewData,setInterviewData] = useState();
     const [userName,setUserName] = useState();
+    const [userEmail, setUserEmail] = useState();
     const [loading,setLoading] = useState(false);
     const {interviewInfo, setInterviewInfo} = useContext(InterviewDataContext);
     const router = useRouter()
@@ -28,7 +29,7 @@ function Interview() {
         setLoading(true)
         try {
         let { data: Interviews, error } = await supabase
-        .from('interviews')
+        .from('Interviews')
         .select("jobPosition ,jobDescription, duration , type")
         .eq('interview_id',interview_id)
 
@@ -47,7 +48,7 @@ function Interview() {
     const onJoinInterview = async()=>{
         setLoading(true)
         let { data: Interviews, error } = await supabase
-        .from('interviews')
+        .from('Interviews')
         .select('*')
         .eq("interview_id",interview_id);
 
@@ -55,6 +56,7 @@ function Interview() {
 
         setInterviewInfo({
             userName : userName,
+            userEmail : userEmail,
             interviewData : Interviews[0]
         })
         router.push("/interview/"+interview_id+"/start")
@@ -74,6 +76,10 @@ function Interview() {
             <div className='w-full'>
                 <h2>Enter your full name</h2>
                 <Input placeholder='e.g. Ayush Bamrara' onChange={(event)=>setUserName(event.target.value)}/>
+            </div>
+            <div className='w-full'>
+                <h2>Enter your Email</h2>
+                <Input placeholder='ayush***@gmail.com' onChange={(event)=>setUserEmail(event.target.value)}/>
             </div>
             <div className='bg-blue-100 flex gap-4 rounded-lg p-3 mt-5'>
                 <Info className='text-primary'/>
